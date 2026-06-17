@@ -20,3 +20,13 @@ cp -av "$src"/* "$PREFIX/"
 
 # replace old info folder with our new regenerated one
 rm -rf "$PREFIX/info"
+
+# The Intel upstream packages install license files to a shared path
+# (share/doc/mkl/licensing/) which causes conda ClobberWarnings when multiple
+# packages (e.g. mkl and mkl-include) are installed together into the same env.
+# Move them to a per-package unique path to avoid the conflict.
+if [ -d "$PREFIX/share/doc/mkl/licensing" ] && [ "$PKG_NAME" != "mkl" ]; then
+    mkdir -p "$PREFIX/share/doc/$PKG_NAME/licensing"
+    mv "$PREFIX/share/doc/mkl/licensing"/* "$PREFIX/share/doc/$PKG_NAME/licensing/"
+    rm -rf "$PREFIX/share/doc/mkl/licensing"
+fi
