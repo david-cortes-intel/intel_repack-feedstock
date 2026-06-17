@@ -65,9 +65,6 @@ source:
   - url: {{ intel_ch }}/{{ target_platform }}/mkl-static-{{ mkl_version }}-intel_{{ mkl_buildnum }}.conda
     folder: mkl-static
     no_hoist: true
-  - url: {{ intel_ch }}/{{ target_platform }}/onemkl-license-{{ mkl_version }}-intel_{{ mkl_buildnum }}.conda
-    folder: onemkl-license
-    no_hoist: true
   - url: {{ intel_ch }}/{{ target_platform }}/onemkl-sycl-blas-{{ mkl_version }}-intel_{{ mkl_buildnum }}.conda
     folder: onemkl-sycl-blas
     no_hoist: true
@@ -137,27 +134,6 @@ build:
   skip: True                                  # [not (linux64 or win)]
 
 outputs:
-  - name: onemkl-license
-    version: {{ mkl_version }}
-    script: repack.sh   # [linux]
-    script: repack.bat  # [win]
-    number: {{ mkl_buildnum|int + dstbuildnum|int }}
-    about:
-      home: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
-      license: LicenseRef-IntelSimplifiedSoftwareOct2022
-      license_family: Proprietary
-      license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
-      summary: License package for Intel® oneMKL
-      description: |
-        Intel® oneAPI Math Kernel Library license package.
-        This package is a repackaged set of binaries obtained directly from Intel\'s conda channel.
-      doc_url: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
-    test:
-      commands:
-        - echo 'onemkl-license installed successfully'
-
   - name: mkl
     version: {{ mkl_version }}
     script: repack.sh   # [linux]
@@ -172,15 +148,13 @@ outputs:
         {{ openmp_mutex }}
       host:
         - tbb-devel {{ tbb_version.split('.')[0] }}.*
-      run:
-        - {{ pin_subpackage('onemkl-license', exact=True) }}
     about:
       home: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - mkl/info/licenses/license.txt
+         - mkl/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -199,16 +173,13 @@ outputs:
     script: repack.sh   # [linux]
     script: repack.bat  # [win]
     number: {{ mkl_buildnum|int + dstbuildnum|int }}
-    requirements:
-      run:
-        - {{ pin_subpackage('onemkl-license', exact=True) }}
     about:
       home: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - mkl-include/info/licenses/license.txt
+         - mkl-include/info/licenses/tpp.txt
       summary: Headers for building against Intel® oneMKL libraries
       description: |
         Intel® oneAPI Math Kernel Library headers for developing software that uses oneMKL.<br/>
@@ -259,8 +230,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-blas/info/licenses/license.txt
+         - onemkl-sycl-blas/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -311,8 +282,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-datafitting/info/licenses/license.txt
+         - onemkl-sycl-datafitting/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -363,8 +334,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-dft/info/licenses/license.txt
+         - onemkl-sycl-dft/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -417,8 +388,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-lapack/info/licenses/license.txt
+         - onemkl-sycl-lapack/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -469,8 +440,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-rng/info/licenses/license.txt
+         - onemkl-sycl-rng/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -523,8 +494,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-sparse/info/licenses/license.txt
+         - onemkl-sycl-sparse/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -575,8 +546,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-stats/info/licenses/license.txt
+         - onemkl-sycl-stats/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -627,8 +598,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-vm/info/licenses/license.txt
+         - onemkl-sycl-vm/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library runtime libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -652,8 +623,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - onemkl-sycl-include/info/licenses/license.txt
+         - onemkl-sycl-include/info/licenses/tpp.txt
       summary: Headers for building against Intel® oneMKL oneAPI interface libraries
       description: |
         Intel® oneAPI Math Kernel Library oneAPI interface headers for developing software that uses oneMKL.<br/>
@@ -698,8 +669,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - mkl-dpcpp/info/licenses/license.txt
+         - mkl-dpcpp/info/licenses/tpp.txt
       summary: Intel® oneAPI Math Kernel Library SYCL libraries
       description: |
         Intel® oneAPI Math Kernel Library is Intel®-Optimized Math Library for Numerical Computing on CPUs & GPUs.<br/>
@@ -716,7 +687,7 @@ outputs:
     number: {{ mkl_buildnum|int + dstbuildnum|int + 1|int }}
     build:
       script:
-        - cp -f $SRC_DIR/onemkl-license/info/licenses/license.txt $SRC_DIR  # [linux]
+        - cp -f $SRC_DIR/mkl/info/licenses/license.txt $SRC_DIR  # [linux]
         - chmod 664 $SRC_DIR/license.txt  # [linux]
         - cp -rv $SRC_DIR/$PKG_NAME/* $PREFIX  # [linux]
         - rm -rf $PREFIX/info  # [linux]
@@ -743,8 +714,8 @@ outputs:
       license: LicenseRef-IntelSimplifiedSoftwareOct2022
       license_family: Proprietary
       license_file:
-         - onemkl-license/info/licenses/license.txt
-         - onemkl-license/info/licenses/tpp.txt
+         - mkl-devel-dpcpp/info/licenses/license.txt
+         - mkl-devel-dpcpp/info/licenses/tpp.txt
     test:
       commands:
         - ls -A $PREFIX/lib/*  # [linux]
